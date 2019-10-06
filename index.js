@@ -1,103 +1,122 @@
+/**
+ * Get data per ship from API for the previousDaysNumber by ship_id
+ * 
+ * @param {*} id 
+ * @param {*} previousDaysNumber 
+ */
+async function getShipData(id, previousDaysNumber) {
+	const response = await fetch(`https://services.marinetraffic.com/api/exportvesseltrack/cf8f05df0b57bfae43e762cc61fd381239c4c042/v:2/period:daily/days:${previousDaysNumber}/shipid:${id}/protocol:jsono`);
+	const myJson = await response.json();
+	return myJson;
+}
 
-let data = [
-	{
-		"MMSI": "241486001",
-		"STATUS": "0",
-		"SPEED": "146",
-		"LON": "0",
-		"LAT": "0",
-		"COURSE": "189",
-		"HEADING": "190",
-		"TIMESTAMP": "2017-07-12T10:06:00",
-		"SHIP_ID": "4910654",
-		"WIND_ANGLE": "340",
-		"WIND_SPEED": "18",
-		"WIND_TEMP": "12"
-	},
-	{
-		"MMSI": "241486002",
-		"STATUS": "0",
-		"SPEED": "146",
-		"LON": "2",
-		"LAT": "2",
-		"COURSE": "190",
-		"HEADING": "191",
-		"TIMESTAMP": "2017-07-12T10:06:00",
-		"SHIP_ID": "4910655",
-		"WIND_ANGLE": "17",
-		"WIND_SPEED": "14",
-		"WIND_TEMP": "11"
-	},
-	{
-		"MMSI": "241486003",
-		"STATUS": "0",
-		"SPEED": "146",
-		"LON": "-30",
-		"LAT": "-30",
-		"COURSE": "190",
-		"HEADING": "191",
-		"TIMESTAMP": "2017-07-12T10:06:00",
-		"SHIP_ID": "4910656",
-		"WIND_ANGLE": "99",
-		"WIND_SPEED": "18",
-		"WIND_TEMP": "13"
-	},
-	{
-		"MMSI": "241486004",
-		"STATUS": "0",
-		"SPEED": "146",
-		"LON": "40",
-		"LAT": "40",
-		"COURSE": "189",
-		"HEADING": "191",
-		"TIMESTAMP": "2017-07-12T10:06:00",
-		"SHIP_ID": "4910657",
-		"WIND_ANGLE": "105",
-		"WIND_SPEED": "24",
-		"WIND_TEMP": "15"
-	}
-];
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+function range(start, end) {
+	return Array(end - start + 1).fill().map((_, idx) => start + idx);
+}
+
+async function createShipData(numOfShips=10, previousDaysNumber = 10) {
+	clearMap();
+	// Resolve all promises returned from API
+	let result = await Promise.all(range(1, numOfShips)
+		.map(e => getShipData(e, previousDaysNumber)));
+	
+	// Filter empty responses from the result array and reverse it
+	let filteredArray = result.filter(o => o.length > 0).map(a=>a.reverse());
+	
+	displayShip(filteredArray);
+}
 var mymap = L.map('mapid').setView([0, 0], 2);
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-	maxZoom: 18,
-	id: 'mapbox.light',
-	accessToken: 'pk.eyJ1IjoibWFub3NjaHIiLCJhIjoiY2sxOThlMzlxMXU3ZDNwcGY3emNqNHFhbSJ9.vMfY-wblgP-9B6VgdO7cKw'
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox.light',
+    accessToken: 'pk.eyJ1IjoibWFub3NjaHIiLCJhIjoiY2sxOThlMzlxMXU3ZDNwcGY3emNqNHFhbSJ9.vMfY-wblgP-9B6VgdO7cKw'
 }).addTo(mymap);
 
 var cluster = L.markerClusterGroup();
 
-let listOfMarkers = data.map(point => {
-	let m = L.marker([point.LON, -point.LAT]);
-	cluster.addLayer(m);
-	m.title = point.MMSI;
-	m.prevMarkers = [];
-	console.log(m._latlng)
-	return m;
+function clearMap(){
+	console.log(mymap);
+	cluster.clearLayers();
+	mymap._layers['51'] = null;
+	mymap._layers['52'] = null;
+	mymap._layers['53'] = null;
+	// mymap._layers.forEach(e => removeLayer(e));
+	// mymap.clearLayers();
+	
+}
+
+// createShipData(10,10);
+
+function displayShip(sortedShipsPerDayArray){
+	
+
+	let listOfMarkers = sortedShipsPerDayArray.map(point => {
+		let m = L.marker([point[0].LAT, point[0].LON]);
+        //we set the offset of the latest date market to always be on top (clicable) 
+        m.setZIndexOffset(100);
+		cluster.addLayer(m);
+
+		//we pass the original object for later manipulation
+		m.apiOBJECT = point;
+		m.apiOBJECT.showPrevious = false;
+		m.apiOBJECT.previousMarkers = [];
+		m.apiOBJECT.routeColor = getRandomColor();
+		return m;
+	});
+
+	//Adding clustering https://github.com/Leaflet/Leaflet.markercluster#examples (lib used)
+	mymap.addLayer(cluster);
+
+	//On click marker handler to toggle the previous location of a ship
+	listOfMarkers.forEach(m => m.on('click', function (e) {
+		if (!m.apiOBJECT.showPrevious){
+
+            //create the polilines for this ships path
+            m.apiOBJECT.polilines = L.polyline(
+                [m.apiOBJECT.map(el=> [el.LAT, el.LON])],
+                { color: m.apiOBJECT.routeColor}).addTo(mymap);
+                
+            //create previous locations marks for this ship
+            m.apiOBJECT.previousMarkers = m.apiOBJECT.map((el,index)=> L.marker([el.LAT, el.LON],  {
+                icon: new L.DivIcon({
+                    className: 'my-div-icon',
+                    html: `<img class="my-div-image" src="./ferry-15.svg"/>
+                           <b>${index}</b>`
+                })}).addTo(mymap));
+            
+			m.apiOBJECT.showPrevious = !m.apiOBJECT.showPrevious;
+		}else{
+            mymap.removeLayer(m.apiOBJECT.polilines);
+			m.apiOBJECT.previousMarkers.forEach(subM => mymap.removeLayer(subM));
+            m.apiOBJECT.showPrevious = !m.apiOBJECT.showPrevious;
+		}
+	}));
+	//On click marker handler to toggle the previous location of a ship
+	listOfMarkers.forEach(m => m.bindPopup("<b>MMSI:"+m.apiOBJECT[0].MMSI+"</b><br>more details"))
+}
+
+document.getElementById('search_btn').addEventListener('click', (e) => {
+	let numberOfShips = document.getElementById('numberOfShips').value;
+	let numberOfDays = document.getElementById('numberOfDays').value;
+	createShipData(numberOfShips, numberOfDays);
 });
 
-//CLUSTERING https://github.com/Leaflet/Leaflet.markercluster#examples (lib used)
-mymap.addLayer(cluster);
-
-let pathCoords = data.map(point => {
-	let coordsArr = [];
-	coordsArr.push(point.LON, point.LAT);
-	return coordsArr;
+document.getElementById('clear_btn').addEventListener('click', (e) => {
+	clearMap();
 });
-var polyline = L.polyline(pathCoords).addTo(mymap);
 
+// function updateTextInput(val, id) {
+// 	document.getElementById(id).value=val;
 
-listOfMarkers.forEach(m => m.bindPopup(`<b>MMSI:${m.title}</b><br>more details`))
-
-listOfMarkers.forEach(m => m.bindPopup(`<b>MMSI:${m.title}</b><br>more details`))
-listOfMarkers.forEach(m => m.on('mouseover', function (e) {
-	console.log(e)
-	let m1 = L.marker([m._latlng.lng + 3, m._latlng.lat + 3]).addTo(mymap);
-	let m2 = L.marker([m._latlng.lng + 6, m._latlng.lat + 6]).addTo(mymap);
-	let m3 = L.marker([m._latlng.lng + 1, m._latlng.lat + 1]).addTo(mymap);
-
-	m.prevMarkers.push(m1);
-	m.prevMarkers.push(m2);
-	m.prevMarkers.push(m3);
-}))
-listOfMarkers.forEach(m => m.on('mouseout', (e) => m.prevMarkers.forEach(subM => mymap.removeLayer(subM))))
+// 	// document.getElementById('textInput').innerHTML=val;
+//   }

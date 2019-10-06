@@ -13,19 +13,56 @@
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin="" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./app.css">
     
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
     integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
     crossorigin=""></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.js"
-    integrity="sha256-kzv+r6dLqmz7iYuR2OdwUgl4X5RVsoENBzigdF5cxtU=" crossorigin="anonymous"></script>
-    <script src="https://momentjs.com/static/js/global.js"></script>
+    
 </head>
 <body>
-    <div id='map'></div>
+    <section class="container">
+            <div id='mapid'></div>
+            <div class="menu">
+                <div class=menu_group>
+                    <h1 class="header-1">Daily Vessel Tracks</h1>
+                </div>
+                <!-- <div class="menu_group">
+                    <h2 class="header-2">Number Of Ships</h2>
+                </div> -->
+                <div class="menu_input_group menu_group">
+                    <!-- <input type="range" class="form__input" placeholder="Number Of Ships" id="numberOfShips" min="1" max="200" value="10" oninput="amount.value=numberOfShips.value" name="numberOfShips">
+                    <output name="amount" id="amount" for="numberOfShips">0</output>
+                    <label for="numberOfShips" class="form__label">Email address</label> -->
+                    <label class="menu_label" for="numberOfShips">Pick a Number Of Ships</label>
+                    <input class="menu_input" type="number" id="numberOfShips" min="1" max="100">
+                    
+                    <!-- <input type="text" id="numberOfShips" value=""> -->
+                </div>
+        
+                <!-- <div class="menu_group">
+                    <h2 class="header-2">Number Of Days</h2>
+                </div> -->
+                <div class="menu_input_group menu_group">
+                    <!-- <input type="range" class="form__input" placeholder="Number Of Days" id="numberOfDays" min="1" max="150" value="10">
+                    <output name="amount" id="amount" for="numberOfDays">0</output>
+                    <label for="numberOfDays" class="form__label">Email address</label> -->
+                    <label class="menu_label" for="numberOfDays"">Pick a Number Of Days</label>
+                    <input class="menu_input" type="number" id="numberOfDays" min="1" max="150">
+                    
+                    <!-- <input type="text" id="numberOfDays" value=""> -->
+                </div>
+            
+                <div class="menu_btn_group menu_group">
+                    <button id="search_btn" class="btn">Search</button>
+                    <button id="clear_btn" class="btn">Clear</button>
+                </div>
+                <div class="copyright menu_group">&copy; Developed by Manolis Chorianopoulos</div>
+            </div>
+    </section>
 
-    <script src="./index.js"></script>
+    <script src="./index6.js"></script>
 </body>
 </html>
