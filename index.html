@@ -5,9 +5,6 @@
     <meta charset='utf-8' />
     <title>Marine Traffic Project</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.css' rel='stylesheet' />
-    <link rel="stylesheet" href="./app.css">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -25,34 +22,19 @@
 <body>
     <section class="container">
             <div id='mapid'></div>
+
             <div class="menu">
                 <div class=menu_group>
                     <h1 class="header-1">Daily Vessel Tracks</h1>
                 </div>
-                <!-- <div class="menu_group">
-                    <h2 class="header-2">Number Of Ships</h2>
-                </div> -->
                 <div class="menu_input_group menu_group">
-                    <!-- <input type="range" class="form__input" placeholder="Number Of Ships" id="numberOfShips" min="1" max="200" value="10" oninput="amount.value=numberOfShips.value" name="numberOfShips">
-                    <output name="amount" id="amount" for="numberOfShips">0</output>
-                    <label for="numberOfShips" class="form__label">Email address</label> -->
                     <label class="menu_label" for="numberOfShips">Pick a Number Of Ships</label>
                     <input class="menu_input" type="number" id="numberOfShips" min="1" max="100">
-                    
-                    <!-- <input type="text" id="numberOfShips" value=""> -->
                 </div>
-        
-                <!-- <div class="menu_group">
-                    <h2 class="header-2">Number Of Days</h2>
-                </div> -->
+
                 <div class="menu_input_group menu_group">
-                    <!-- <input type="range" class="form__input" placeholder="Number Of Days" id="numberOfDays" min="1" max="150" value="10">
-                    <output name="amount" id="amount" for="numberOfDays">0</output>
-                    <label for="numberOfDays" class="form__label">Email address</label> -->
                     <label class="menu_label" for="numberOfDays"">Pick a Number Of Days</label>
                     <input class="menu_input" type="number" id="numberOfDays" min="1" max="150">
-                    
-                    <!-- <input type="text" id="numberOfDays" value=""> -->
                 </div>
             
                 <div class="menu_btn_group menu_group">
