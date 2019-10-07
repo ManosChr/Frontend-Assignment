@@ -1,17 +1,45 @@
-# Daily Vessel tracks (markers and animation)
+# Daily Vessel tracks
 
-Your task is to present daily vessel tracks on a map and animate them.
+## Description
 
-Consume dataset from our [API url](https://services.marinetraffic.com/api/exportvesseltrack/v:2/cf8f05df0b57bfae43e762cc61fd381239c4c042/) adding any necessary extra parameters like MMSI and days.
+> This application presents daily vessel tracks on a map and animates them.
+> It consumes dataset from the Marine Traffic API.
+> Documentation on the API can be found [here](https://www.marinetraffic.com/en/ais-api-services/documentation/api-service:ps01).
+>
+>**The app uses:**
+>* Leaflet Library
+>* Waypoints with informational tooltips
+>* Waypoint clustering
+>* Animation controls
+>* Javascript code
 
-Documentation on the API can be found [here](https://www.marinetraffic.com/en/ais-api-services/documentation/api-service:ps01).
+## Instructions for running locally
 
-**We expect:**
-* Waypoints with informational tooltips.
-* A form of waypoint clustering.
-* Animation controls.
-* Javascript code (Any JS Framework or Library)
+- clone repo
 
-**Share your work:**
-* Stage your solution on a demo page or
-* Fork this repo and create a pull request that contains your implementation in a new branch named after you.
+```
+git clone https://github.com/ManosChr/Frontend-Assignment.git
+```
+
+- cd to repo folder
+
+```
+cd Frontend-Assignment
+```
+
+- run index.html
+
+
+
+## Specifications
+
+- User enters a Number Of Ships that he wants to be shown on the map
+- User enters a Number Of Previous Days for which each ship's location will be designated on the map and its course will be drawn as well
+- Press the SEARCH button to start the proccess and retrieve data from the API
+- Press the CLEAR button to clear all vessels from the map, as well as their former days routes
+
+## Improvements and new features to be added
+
+- [ ] Display direction and speed of vessel with animations
+- [ ] Add live preview functionality
+- [ ] Prepare distribution app for production (Babel, Webpack)
