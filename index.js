@@ -49,13 +49,6 @@ var prevMarkersLayerGroup = L.layerGroup([]);
 var polylineLayerGroup = L.layerGroup([]);
 var cluster = L.markerClusterGroup();
 
-var myIcon = L.icon({
-	iconUrl: './icons/m1.png',
-	iconSize: [29, 24],
-	iconAnchor: [9, 21],
-	popupAnchor: [0, -14]
-  });
-
 // Remove all markers and polylines from the map
 function clearMap(){
 	polylineLayerGroup.eachLayer((layer)=>polylineLayerGroup.removeLayer(layer));
