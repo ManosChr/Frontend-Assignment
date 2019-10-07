@@ -9,9 +9,7 @@
 >**The app uses:**
 >* Leaflet Library
 >* Waypoints with informational tooltips
->* Waypoint clustering
->* Animation controls
->* Javascript code
+>* Location clustering
 
 ## Instructions for running locally
 
