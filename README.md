@@ -38,6 +38,7 @@ cd Frontend-Assignment
 
 ## Improvements and new features to be added
 
+- [ ] Use an API that gives us the ship ids in order not to pick them randomly
 - [ ] Display direction and speed of vessel with animations
 - [ ] Add live preview functionality
 - [ ] Prepare distribution app for production (Babel, Webpack)
