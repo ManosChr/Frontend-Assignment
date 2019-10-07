@@ -31,7 +31,7 @@ cd Frontend-Assignment
 
 ## Specifications
 
-- User enters a Number Of Ships that he wants to be shown on the map
+- User enters a Number Of Ships that he wants to be shown on the map. An array of ids [1,..,numberOfShips] will be tested if they exist on the API and then they will be shown on the map
 - User enters a Number Of Previous Days for which each ship's location will be designated on the map and its course will be drawn as well
 - Press the SEARCH button to start the proccess and retrieve data from the API
 - Press the CLEAR button to clear all vessels from the map, as well as their former days routes
