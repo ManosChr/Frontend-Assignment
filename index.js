@@ -20,6 +20,7 @@ function getRandomColor() {
     return color;
 }
 
+// Takes 2 integers and creates an array of numbers in between
 function range(start, end) {
 	return Array(end - start + 1).fill().map((_, idx) => start + idx);
 }
